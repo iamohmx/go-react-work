@@ -2,6 +2,8 @@ import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
+const BASE_URL = 'http://localhost:8080/';
+
 function Add() {
     const navigate = useNavigate();
     const [product, setProduct] = useState({
@@ -15,7 +17,7 @@ function Add() {
     
     const checkLogin = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/check-login', {
+            const response = await axios.get(`${BASE_URL}check-login`, {
                 withCredentials: true,
             });
             if (response.status === 200) {
@@ -46,7 +48,7 @@ function Add() {
         e.preventDefault();
         setError('');
         try {
-            const response = await axios.post('http://localhost:8080/product/add', {
+            const response = await axios.post(`${BASE_URL}product/add`, {
                 pro_name: product.pro_name,
                 pro_price: parseFloat(product.pro_price), // Ensure price is sent as a number
                 pro_desc: product.pro_desc

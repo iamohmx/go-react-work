@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+const BASE_URL = 'http://localhost:8080/';
+
 function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -17,7 +19,7 @@ function Login() {
   }, [navigate]);
 
   const handleLogin = async () => {
-    const response = await fetch('http://localhost:8080/login', {
+    const response = await fetch(`${BASE_URL}login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ username, password }), // ต้องตรงกับโครงสร้างข้อมูลใน backend

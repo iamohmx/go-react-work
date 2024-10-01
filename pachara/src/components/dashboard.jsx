@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import Swal from 'sweetalert2';
-
+const BASE_URL = 'http://localhost:8080/';
 function Dashboard() {
     const navigate = useNavigate();
     const [user, setUser] = useState(null);
@@ -12,7 +12,7 @@ function Dashboard() {
 
     const fetchProducts = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/products');
+            const response = await axios.get(`${BASE_URL}products`);
             setProducts(response.data);
             setLoading(false);
         } catch (error) {
@@ -22,7 +22,7 @@ function Dashboard() {
 
     const checkLogin = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/check-login', {
+            const response = await axios.get(`${BASE_URL}check-login`, {
                 withCredentials: true,
             });
             if (response.status === 200) {
@@ -67,7 +67,7 @@ function Dashboard() {
         }).then((result) => {
             if (result.isConfirmed) {
                 // เรียก API ล็อกเอาท์
-                axios.post('http://localhost:8080/logout', {}, { withCredentials: true })
+                axios.post(`${BASE_URL}logout`, {}, { withCredentials: true })
                     .then(() => {
                         // ลบ user จาก localStorage
                         localStorage.removeItem('user');
@@ -89,7 +89,7 @@ function Dashboard() {
 
     const handleDelete = async (productId) => {
         try {
-            await axios.delete(`http://localhost:8080/product/delete?id=${productId}`);
+            await axios.delete(`${BASE_URL}product/delete?id=${productId}`);
             setProducts(products.filter(product => product.id !== productId));
             Swal.fire({
                 title: 'Are you sure?',
@@ -101,7 +101,7 @@ function Dashboard() {
                 confirmButtonText: 'Yes, delete it!'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    axios.delete(`http://localhost:8080/product/delete?id=${productId}`)
+                    axios.delete(`${BASE_URL}product/delete?id=${productId}`)
                         .then(() => {
                             setProducts(products.filter(product => product.id !== productId));
                             Swal.fire(

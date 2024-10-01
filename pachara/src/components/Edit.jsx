@@ -1,6 +1,7 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+const BASE_URL = 'http://localhost:8080/';
 
 function Edit() {
     const { id } = useParams();
@@ -16,7 +17,7 @@ function Edit() {
     
     const checkLogin = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/check-login', {
+            const response = await axios.get(`${BASE_URL}check-login`, {
                 withCredentials: true,
             });
             if (response.status === 200) {
@@ -34,7 +35,7 @@ function Edit() {
 
     async function getProduct(proId) {
         try {
-            const response = await axios.get(`http://localhost:8080/product/?id=${proId}`);
+            const response = await axios.get(`${BASE_URL}product/?id=${proId}`);
             if (response.status === 200) {
                 setProduct(response.data);
             } else {
@@ -62,7 +63,7 @@ function Edit() {
         e.preventDefault();
         setError('');
         try {
-            const response = await axios.put(`http://localhost:8080/product/update?id=${id}`, {
+            const response = await axios.put(`${BASE_URL}product/update?id=${id}`, {
                 pro_name: product.pro_name,
                 pro_price: parseFloat(product.pro_price), // Ensure price is sent as a number
                 pro_desc: product.pro_desc
